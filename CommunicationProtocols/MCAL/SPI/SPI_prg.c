@@ -7,8 +7,8 @@
 
 
 /* The SPI Master initiates the communication cycle when pulling low(configure as input and high) the Slave Select SS pin of the
-desired Slave. Master and Slave prepare the data to be sent in their respective Shift Registers, and the Master generates the required clock pulses on the SCK line to interchange data. Data is always shifted from Master to Slave on the Master Out – Slave In,
-MOSI, line, and from Slave to Master on the Master In – Slave Out, MISO, line. After
+desired Slave. Master and Slave prepare the data to be sent in their respective Shift Registers, and the Master generates the required clock pulses on the SCK line to interchange data. Data is always shifted from Master to Slave on the Master Out â€“ Slave In,
+MOSI, line, and from Slave to Master on the Master In â€“ Slave Out, MISO, line. After
 each data packet, the Master will synchronize the Slave by pulling high(configure as output and high) the Slave Select,SS, line.*/
 
 
@@ -61,11 +61,11 @@ void SPI_vMaster(){
 	DDRB =SET_BIT(DDRB , MOSI_PIN) | SET_BIT(DDRB , SCK_PIN);
 
 	/*------------- --> SPCR <-- --------------------
-	 * Bit 6 – SPE: SPI Enable   (SET)
-	 * Bit 4 – MSTR: Master/Slave Select   (SET)
-	 * Bits 1, 0 – SPR1, SPR0: SPI Clock Rate Select Fosc/8
+	 * Bit 6 â€“ SPE: SPI Enable   (SET)
+	 * Bit 4 â€“ MSTR: Master/Slave Select   (SET)
+	 * Bits 1, 0 â€“ SPR1, SPR0: SPI Clock Rate Select Fosc/8
 	 *
-	 * • Bit 5 – DORD: Data Order written to zero, the MSB of the data word is transmitted first and this the deafult value
+	 * â€¢ Bit 5 â€“ DORD: Data Order written to zero, the MSB of the data word is transmitted first and this the deafult value
 	 */
 	SPCR = SET_BIT(SPCR,6) | SET_BIT(SPCR,4) | SET_BIT(SPCR,0);
 
@@ -86,8 +86,8 @@ void SPI_vSlave(){
 	SET_BIT(DDRB , MISO_PIN);
 
 	/*------------- --> SPCR <-- --------------------
-	 * Bit 6 – SPE: SPI Enable   (SET)
-	 * Bit 4 – MSTR: Master/Slave Select   (CLEAR) */
+	 * Bit 6 â€“ SPE: SPI Enable   (SET)
+	 * Bit 4 â€“ MSTR: Master/Slave Select   (CLEAR) */
 	SPCR = CLR_BIT(SPCR , 4);
 	SPCR = SET_BIT(SPCR , 6);
 
@@ -122,7 +122,13 @@ void SPI_vMasterSend(u8 A_u8Data){
 }
 
 
-u8 SPI_u8SlaveReceive();
+u8 SPI_u8SlaveReceive(){
+	
+	u8 Flag = GET_BIT(SPSR , 7);
+	while(Flag == 0);
+	return SPDR;
+	
+}
 
 
 
