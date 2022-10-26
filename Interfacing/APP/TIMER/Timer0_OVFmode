@@ -1,0 +1,117 @@
+#include <avr/delay.h>
+
+
+#include "../LIB/BIT_MATH.h"
+#include "../LIB/STD_TYPES.h"
+
+
+#include "../MCAL/TIMER/8-BIT-COUNT0_testt2/8BIT_int.h"
+
+#include "../HAL/LED/LED_int.h"
+
+#include "../MCAL/GIE/GIE_int.h"
+
+
+void APP_vTimer0_OVF_ISR(void);
+
+int main(void){
+
+	/* Edit cfg.h file to be in OVF_MODE and Presacle 1024 */
+
+	/* Enable gloaable Interrupt  GIE   ISR(ovf) --> void APP_vTimer0_OVF_ISR(void)  */
+
+	GIE_vEnable();
+
+
+
+
+	/* set call back function */
+
+	TIMER0_vCallBackOvf(APP_vTimer0_OVF_ISR);
+
+
+
+	/* set pin direction [PA0 . PA1 . PA2] --> output */
+
+//	DIO_vSetPinDir(PORTA_ID , PIN0_ID , DIR_OUTPUT );
+//	DIO_vSetPinDir(PORTA_ID , PIN1_ID , DIR_OUTPUT );
+//	DIO_vSetPinDir(PORTA_ID , PIN2_ID , DIR_OUTPUT );
+
+	LED_vInit(LED0_ID);
+	LED_vInit(LED1_ID);
+	LED_vInit(LED2_ID);
+
+
+
+	/* set preload --> for alomost 124 for 1 sec anc COV almost equal 31 	*/
+	TIME0_vSetPreload(124);
+
+
+	/* initalize Timer */
+
+
+	TIMER0_vInit();
+
+
+
+
+	while(1){
+
+
+	}
+
+
+}
+
+
+
+void APP_vTimer0_OVF_ISR(void){
+
+	static u8 counter = 0 ;
+	counter ++;
+	if(counter == 31 ) {  // 1 sec as cov = 31
+		LED_vTurnOn(LED0_ID);
+		LED_vTurnOff(LED1_ID);
+		LED_vTurnOff(LED2_ID);
+		TIME0_vSetPreload(124);
+	}
+
+	else if(counter == 62){ // 2 sec
+		LED_vTurnOff(LED0_ID);
+		LED_vTurnOn(LED1_ID);
+		LED_vTurnOff(LED2_ID);
+		TIME0_vSetPreload(124);
+
+	}
+
+	else if(counter == 93){ // 3 sec
+		LED_vTurnOff(LED0_ID);
+		LED_vTurnOff(LED1_ID);
+		LED_vTurnOn(LED2_ID);
+		TIME0_vSetPreload(124);
+
+		counter = 0 ;
+
+	}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

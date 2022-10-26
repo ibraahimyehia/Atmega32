@@ -1,0 +1,89 @@
+#include <avr/delay.h>
+
+#include "../LIB/BIT_MATH.h"
+#include "../LIB/STD_TYPES.h"
+
+
+
+#include "../HAL/LCD/LCD_int.h"
+
+
+#include "../MCAL/DIO/DIO_int.h"
+
+
+int main(void){
+
+	/* _int.h */
+	LCD_vInit();
+
+//	LCD_vDispStr("Ibrahim");
+//	_delay_ms(500);
+//	LCD_vClrScreen();
+//	_delay_ms(300);
+//
+//		LCD_vGoToRowCol(ROW1_ID , COL2_ID);
+//		LCD_vDispStr("Ibrahim");
+//		_delay_ms(500);
+//		LCD_vClrScreen();
+//		_delay_ms(300);
+//
+//			LCD_vGoToRowCol(ROW0_ID , COL4_ID);
+//			LCD_vDispStr("Ibrahim");
+//			_delay_ms(500);
+//			LCD_vClrScreen();
+//			_delay_ms(300);
+//
+//     		LCD_vGoToRowCol(ROW1_ID , COL6_ID);
+//     		LCD_vDispStr("Ibrahim");
+//     		_delay_ms(500);
+//     		LCD_vClrScreen();
+//     		_delay_ms(300);
+//
+//     		LCD_vGoToRowCol(ROW0_ID , COL8_ID);
+//    		LCD_vDispStr("Ibrahim");
+//    		_delay_ms(500);
+//    		LCD_vClrScreen();
+//    		_delay_ms(300);
+
+	LCD_vDispStr("Ibrahim");
+	_delay_ms(500);
+	LCD_vClrScreen();
+	_delay_ms(300);
+
+		u8 COL=2;
+		u8 ROW=1;
+	while(COL<11){
+
+		LCD_vGoToRowCol(ROW , COL);
+		LCD_vDispStr("Ibrahim");
+		_delay_ms(500);
+		LCD_vClrScreen();
+		_delay_ms(300);
+
+		COL=COL+2;
+		TOG_BIT(ROW,0);
+
+
+
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

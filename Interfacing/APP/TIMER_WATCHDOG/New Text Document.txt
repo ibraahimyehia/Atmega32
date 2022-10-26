@@ -1,0 +1,46 @@
+#include avrdelay.h
+
+
+#include ..LIBBIT_MATH.h
+#include ..LIBSTD_TYPES.h
+
+
+#include ..MCALTIMERWTD_TIMERWTD_int.h
+
+#include ..MCALDIODIO_int.h
+#include..HALBTNBTN_int.h
+#include..HALLCDLCD_int.h
+
+
+#include ..MCALGIEGIE_int.h
+
+
+void App_LED(void){
+
+	DIO_u8SetPinVal(PORTA_ID , PIN0_ID , VAL_HIGH);
+	_delay_ms(1500);
+	DIO_u8SetPinVal(PORTA_ID , PIN0_ID , VAL_LOW);
+	_delay_ms(300);
+
+
+
+}
+
+int main(void){
+
+	 PA0 -- outPut 
+	DIO_vSetPinDir(PORTA_ID , PIN0_ID , DIR_OUTPUT);
+
+	WTD_vEnable();
+
+	 set Timer Sleep 1sec 
+
+	WTD_vSetSleep(WTD_SLEEP_1_sec);
+
+
+	 call APp 
+	App_LED();
+
+	 Disaple WDT 
+	WTD_vDisabl();
+}

@@ -1,0 +1,62 @@
+
+#include <avr/delay.h>
+
+
+#include "../LIB/BIT_MATH.h"
+#include "../LIB/STD_TYPES.h"
+
+
+#include "../MCAL/DIO/DIO_int.h"
+
+
+#include "../HAL/LCD/LCD_int.h"
+
+#include "../HAL/LED/LED_int.h"
+
+
+#include "../HAL/KEY_PAD/PAD_int.h"
+
+#include "../MCAL/ADC/ADC_int.h"
+
+int main(void){
+
+	ADC_vInit();
+	LED_vInit(LED6_ID);
+	LED_vInit(LED5_ID);
+	LED_vInit(LED4_ID);
+		u16 DigitalValue;
+		f32 AnloagVal;
+
+	while(1){
+		DigitalValue = ADC_u16GetDigValSync(ADC_ID7); //ADC portA only this rule
+
+		/* EQuation page 6 slides */
+
+		AnloagVal = DigitalValue * ( 5.0 / 1024);
+
+		if ( 0 < AnloagVal && AnloagVal < 1.5 ){
+			LED_vTurnOn(LED6_ID);
+			LED_vTurnOff(LED5_ID);
+			LED_vTurnOff(LED4_ID);
+
+		}
+
+		if ( 1.5 < AnloagVal && AnloagVal < 3 ){
+					LED_vTurnOn(LED5_ID);
+					LED_vTurnOff(LED7_ID);
+					LED_vTurnOff(LED6_ID);
+
+				}
+
+		if ( 3 < AnloagVal ){
+			LED_vTurnOn(LED4_ID);
+			LED_vTurnOff(LED5_ID);
+			LED_vTurnOff(LED6_ID);
+				}
+
+
+
+
+	}
+
+	}

@@ -1,0 +1,94 @@
+#include <avr/delay.h>
+
+
+#include "../LIB/BIT_MATH.h"
+#include "../LIB/STD_TYPES.h"
+
+
+#include "../MCAL/DIO/DIO_int.h"
+
+#include "../HAL/Transsistor/TRAN_Init.h"
+
+
+#include "../HAL/LCD/LCD_int.h"
+#include "../HAL/KEY_PAD/PAD_int.h"
+
+
+
+
+/*  ##########  BJT #################### 
+ * base connected with PINA7  collector connected with LED's Ground EMitter Grounded ADN LED's PIN connected with 5v
+ */
+
+
+//int main(){
+//
+//DIO_vSetPinDir(PORTA_ID , PIN7_ID , DIR_OUTPUT);
+//
+//DIO_vSetPinDir(PORTA_ID , PIN7_ID , DIR_OUTPUT);
+//
+//
+//
+//while(1){
+//DIO_vSetPinVal(PORTA_ID , PIN7_ID , VAL_HIGH);
+//DIO_vSetPinVal(PORTA_ID , PIN6_ID , VAL_LOW);
+//
+//_delay_ms(3000);
+//DIO_vSetPinVal(PORTA_ID , PIN7_ID , VAL_LOW);
+//DIO_vSetPinVal(PORTA_ID , PIN6_ID , VAL_HIGH);
+//
+//_delay_ms(3000);
+//
+//}
+//}
+
+
+/* Transistor NOR */
+
+//int main(){
+//
+//	DIO_vSetPinDir(PORTA_ID , PIN5_ID , DIR_OUTPUT);
+//
+//	while(1){
+//
+//		DIO_vSetPinVal(PORTA_ID , PIN5_ID , VAL_HIGH);
+//		_delay_ms(1000);
+//		DIO_vSetPinVal(PORTA_ID , PIN5_ID , VAL_LOW);
+//		_delay_ms(1000);+
+//
+//	}
+//
+//
+//}
+
+
+
+
+// steper motor
+
+void main(void)
+{
+	/* PORT D as output */
+
+	DIO_vSetPortDir(PORTD_ID , DIR_OUTPUT);
+	u8 i;
+
+	while (1)
+	{
+		/* Rotate clock wise for 5 seconds */
+		for (i=0;i<250;i++)
+		{
+			Stepper_RotateCW();
+		}
+
+		/* Rotate anti clock wise for 5 seconds */
+		for (i=0;i<250;i++)
+		{
+			Stepper_RotateACW();
+		}
+
+
+	}
+
+	return;
+}

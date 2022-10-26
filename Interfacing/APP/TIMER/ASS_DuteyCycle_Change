@@ -1,0 +1,127 @@
+#include <avr/delay.h>
+
+
+#include "../LIB/BIT_MATH.h"
+#include "../LIB/STD_TYPES.h"
+
+
+#include "../MCAL/TIMER/8-BIT-COUNT0_testt2/8BIT_int.h"
+
+#include "../MCAL/DIO/DIO_int.h"
+#include"../HAL/BTN/BTN_int.h"
+#include"../HAL/LCD/LCD_int.h"
+
+
+#include "../MCAL/GIE/GIE_int.h"
+
+
+
+
+//void APP_vTimer0_CTC_ISR(void);
+
+int main(void){
+
+	/* Edit cfg.h file to be in FAST_PWM_MODE and Presacle 1024 */
+
+	/* Enable gloaable Interrupt  GIE   ISR(ovf) --> void APP_vTimer0_OVF_ISR(void)  */
+
+	GIE_vEnable();
+
+
+	/* set call back function */
+
+//	TIMER0_vCallBackCtc(APP_vTimer0_CTC_ISR);
+
+
+
+	/* set OC0/PB3  */
+
+	DIO_vSetPinDir(PORTB_ID , PIN3_ID , DIR_OUTPUT );
+
+	/* intaillize Button */
+
+	BTN_vInit(BTN0_ID);
+	BTN_vInit(BTN1_ID);
+
+
+	/* intialize LCD */
+	LCD_vInit();
+
+
+
+	/* initalize Timer */
+
+
+	TIMER0_vInit();
+
+
+
+			u8 DutyCycle = 0;
+			u16 OcrVal = 0;
+
+//    OcrVal = DutyCycle * 256 ;
+//    OcrVal = OcrVal / 100 ;
+//    TIME0_vSetOcrVal(OcrVal);
+
+
+	while(1){
+
+
+
+//	    OcrVal = DutyCycle * 256 ;
+//	    OcrVal = OcrVal / 100 ;
+//	    TIME0_vSetOcrVal(OcrVal);
+
+
+		    u8 BottenOneState , BottenTowState;
+		    BottenOneState = BTN_u8GetState(BTN0_ID);
+		    if (BottenOneState == 1 ){
+		    	DutyCycle = DutyCycle + 1;
+		        OcrVal = DutyCycle * 256 ;
+			    OcrVal = OcrVal* 0.01 ;
+		    	TIME0_vSetOcrVal(OcrVal);
+		    	LCD_vDispNum(OcrVal);
+//		    	LCD_vClrScreen();
+		    }
+		    BottenTowState = BTN_u8GetState(BTN1_ID);
+		    if (BottenTowState == 1 ){
+		    	DutyCycle = DutyCycle - 0.5;
+		        OcrVal = DutyCycle * 256 ;
+			    OcrVal = OcrVal / 100 ;
+		    	TIME0_vSetOcrVal(OcrVal);
+		    	LCD_vDispNum(OcrVal);
+//		    	LCD_vClrScreen();
+
+		    }
+	}
+
+
+}
+
+
+
+//void APP_vTimer0_CTC_ISR(void){
+//
+//    f32 DutyCycle = 0.5 ;
+//    f32 OcrVal = 0;
+//
+//    OcrVal = DutyCycle * 256 ;
+//    TIME0_vSetOcrVal(OcrVal)
+//
+//
+//    u8 BottenOneState , BottenTowState;
+//    BottenOneState = BTN_u8GetState(BTN0_ID);
+//    if (BottenOneState == 1 ){
+//    	DutyCycle = DutyCycle + 0.5;
+//        OcrVal = DutyCycle * 256 ;
+//    	TIME0_vSetOcrVal(OcrVal);
+//    }
+//    BottenTowState = BTN_u8GetState(BTN1_ID);
+//    if (BottenTowState == 1 ){
+//    	DutyCycle = DutyCycle - 0.5;
+//        OcrVal = DutyCycle * 256 ;
+//    	TIME0_vSetOcrVal(OcrVal);
+//    }
+// }
+//
+

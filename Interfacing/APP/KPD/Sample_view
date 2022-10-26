@@ -1,0 +1,24 @@
+
+int main(void){
+
+	SSD_vInit(SSD1_ID);
+	SSD_vTurnOn(SSD1_ID);
+	KPD_vInit();
+
+
+	while(1){
+	u8 Num =KPD_vGetPressedKey();
+	if (Num != NO_PRESSED_KEY){
+	SSD_vDispNum(SSD1_ID , Num);
+	}
+	}
+
+
+}
+
+
+
+
+/* from A1 to A4 connected to --> PIND0 to PIND3 
+* from C1 to C4 connected to --> PIND4 PIND7
+*/

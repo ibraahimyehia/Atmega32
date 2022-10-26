@@ -1,0 +1,109 @@
+#include <avr/delay.h>
+
+#include "../LIB/BIT_MATH.h"
+#include "../LIB/STD_TYPES.h"
+
+
+
+#include "../HAL/7_segment/SSD_int.h"
+
+
+#include "../MCAL/DIO/DIO_int.h"
+
+
+int main(void){
+
+ /* _int.h */
+
+	SSD_vInit(SSD0_ID);
+	SSD_vInit(SSD1_ID);
+
+
+
+	while(1){
+
+		/* _prg.c */
+
+	for (u16 j=0 ; j<10 ;j++ ){
+	for (u16 i=0 ; i<10 ;i++ ){
+		SSD_vTurnOn(SSD1_ID);
+		SSD_vDispNum(SSD1_ID,  i);
+		_delay_ms(200);   SSD_vTurnOff(SSD1_ID);
+
+
+		SSD_vTurnOn(SSD0_ID); /* to set the control pin to open the first ss */
+		SSD_vDispNum(SSD1_ID,  j); /* we display number on the both at ssd1 AS the connection circuit was to ss connected to same PORTB*/
+		_delay_ms(3);
+		SSD_vDispNum(SSD1_ID,  j);
+		SSD_vTurnOff(SSD0_ID);
+
+}
+	}
+}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//int main (){
+//
+//	int leastSeg,mostSeg,i;
+//
+//
+//	SSD_vInit(SSD0_ID);
+//	SSD_vInit(SSD1_ID);
+//
+//	while(1){
+//		leastSeg=0;		mostSeg=0;
+//
+//		for(i=0;i<=99;i++){
+//			if(leastSeg>9){ leastSeg=0; mostSeg++; }
+//
+//			SSD_vTurnOn(SSD0_ID);
+//			SSD_vDispNum(SSD0_ID,leastSeg);
+//			leastSeg++;	 _delay_ms(10);
+//			SSD_vTurnOff(SSD0_ID);
+//
+//			SSD_vTurnOn(SSD1_ID);
+//			SSD_vDispNum(SSD1_ID,mostSeg);
+//			_delay_ms(10);
+//			SSD_vTurnOff(SSD1_ID);
+//		}
+//
+//	}
+//	return 0;
+//}
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
