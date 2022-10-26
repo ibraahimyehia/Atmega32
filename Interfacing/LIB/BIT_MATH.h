@@ -44,7 +44,6 @@
 
 
 
-/* from old project */
 #define rotate_left(reg , rotate_number , size)   ((reg << rotate_number) | reg >> (size+(-rotate_number)))
 #define rotate_right(reg , rotate_number , size)   ((reg >> rotate_number) | reg << (size+(-rotate_number)))
 
